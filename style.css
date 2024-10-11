@@ -1,0 +1,117 @@
+/* 5 warm colors (milk white for example) that will be used on the whole page */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+:root {
+    --first-color:#F9F6F2;
+    --second-color:#9B7E46;
+    --third-color:#60AB9A;
+    --fourth-color:#2E4756;
+    --fifth-color:#666A86;
+    --n:0;
+    background-color: var(--second-color);
+    font-family: 'Open Sans', sans-serif;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.top-bar{
+    color: var(--fourth-color);
+    text-align: center;
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:0 10%;
+}
+
+.input-top{
+    display: flex;
+    width: 100%;
+    border: solid 2px var(--fourth-color);
+    border-radius: 10px;
+}
+
+.input-top input{
+    --input-padding-y: 10px;
+    padding: var(--input-padding-y);
+    border: none;
+    background-color: transparent;
+    color: var(--fourth-color);
+    font-size: 1.6em;
+    width: calc(100% - var(--input-padding-y) * 2);
+    text-align: center;
+}
+
+.input-top input:focus{
+    outline: none;
+}
+
+.chess-board {
+    display: grid;
+    grid-template-columns: repeat(var(--n), 1fr);
+    grid-template-rows: repeat(var(--n), 1fr);
+    width: 45%;
+    /* height: 900px; */
+    margin-top: 20px;
+    box-sizing: border-box;
+    /*border: solid 2px var(--fourth-color);*/
+}
+
+.cell {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.white {
+    background-color: var(--first-color);
+}
+
+.black {
+    background-color: var(--fifth-color);
+}
+
+.solve-button{
+    background-color: var(--third-color);
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 45%;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.solve-button button{
+    width: 100%;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    padding: 5px 0;
+    cursor: pointer;
+    font-size: 1.6em;
+}
