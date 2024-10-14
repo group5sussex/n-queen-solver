@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+</body>
+
+
+<script>
+
+
+  //columns and rows starts from 0
+  //example: if initial_state = [5,3,-1] 
+  // this will solve 3 queen problem
+  //in board's initial state: there is queen at row=0 column=5
+  //there is queen at row=1 column=3
+  //user didn't input anything for last row of the initial state
+
+  var initial_state = [5, 3, 6, -1, -1, -1, -1, 2];
+
+  //returns all possible solusion in array 
+  solusions = solve_n_queen(initial_state)
+
+  console.log(solusions)
+
+  function solve_n_queen(initial_state) {
+
+    n = initial_state.length;
+
+    var solusions = get_every_solusion(n);
+    var compatible_solusions = get_solutions_with_required_state(solusions, initial_state);
+
+    return compatible_solusions;
+
+
+  }
+
+  function get_every_solusion(n) {
+
+    var state = [];
+
+    //initiates state
+    for (let i = 0; i < n; i++) {
+      state.push(0);
+    }
+
+    var solutions = []
+
+
+
+    while (true) {
+
+      if (if_solution(state)) {
+        solutions.push([...state])
+      }
+
+      let i = n - 1;
+
+      while (i >= 0) {
+
+        if (state[i] < n - 1) {
+          state[i] += 1;
+          break;
+        } else if (state[i] == n - 1) {
+          state[i] = 0;
+          i -= 1;
+        }
+
+
+      }
+
+      if (i < 0) {
+        break;
+      }
+    }
+
+    return solutions;
+
+
+  }
+
+  function if_solution(state) {
+
+
+    for (let i = 0; i < n; i++) {
+      for (let j = i + 1; j < n; j++) {
+        if (state[i] == state[j]) {
+
+          return false;
+        }
+
+
+        if (Math.abs(state[i] - state[j]) == Math.abs(j - i)) {
+          return false;
+        }
+
+      }
+
+    }
+
+    return true;
+
+  }
+
+
+
+
+
+  function get_solutions_with_required_state(solutions, state) {
+
+    let n = state.length;
+    var final_solutions = [];
+    let is_solution = false;
+
+
+
+    for (let i = 0; i < solutions.length; i++) {
+
+      let is_solution = true;
+
+
+      for (let j = 0; j < n; j++) {
+
+        if (state[j] == -1) {
+          continue;
+        }
+        if (solutions[i][j] != state[j]) {
+          is_solution = false;
+
+        }
+
+      }
+
+      if (is_solution) {
+        final_solutions.push(solutions[i]);
+
+      }
+
+
+    }
+    return final_solutions;
+
+
+  }
+
+
+
+
+
+</script>
+
+</html>
