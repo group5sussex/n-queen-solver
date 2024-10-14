@@ -48,6 +48,12 @@ function generateChessBoard(n) {
 function controlClickSquare(e) {
     let squareId = e.target.idx;
 
+    if (board[squareId] === 1) {
+        document.getElementById(squareId).style.display = "none";
+        board[squareId] = 0
+        return;
+    }
+
     if (checkSquare(squareId)) {
         document.getElementById(squareId).style.display = "block";
         board[squareId] = 1
@@ -56,10 +62,7 @@ function controlClickSquare(e) {
 }
 
 function transformArray(array){
-    let result = new Array(n)
-    for (let i = 0; i < result.length; i++) {
-        result[i] = -1;
-    }
+    let result = new Array(n).fill(-1);
     let k = 0
     for (let i = 0; i < array.length; i++) {
         result[k] = array[i] === 1? i % n: result[k];
@@ -72,6 +75,14 @@ function transformArray(array){
 
 function controlButton(e){
     let initial_state = transformArray(board);
+
+    const check = initial_state.every((val) => val === -1);
+
+    if (check) {
+        alert('Please select at least one queen');
+        return;
+    }
+
     let solutions = solve_n_queen(initial_state);
     applySolution(solutions[0]);
 }
@@ -84,6 +95,12 @@ function applySolution(solution) {
     for (let i = 0; i < solution.length; i++) {
         let idx = solution[i] + i * n;
         document.getElementById(idx).style.display = "block";
+    }
+    // add the solution to the board
+    board = new Array(n * n).fill(0);
+    for (let i = 0; i < solution.length; i++) {
+        let idx = solution[i] + i * n;
+        board[idx] = 1;
     }
 }
 
@@ -133,7 +150,6 @@ function checkSquare(idx) {
 //user didn't input anything for last row of the initial state
 
 function solve_n_queen(initial_state) {
-
     n = initial_state.length;
 
     var solusions = get_every_solusion(n);
@@ -141,14 +157,10 @@ function solve_n_queen(initial_state) {
     var compatible_solusions = get_solutions_with_required_state(solusions, initial_state);
 
     return compatible_solusions;
-
-
 }
 
 function get_every_solusion(n) {
-
     var state = [];
-
     //initiates state
     for (let i = 0; i < n; i++) {
         state.push(0);
@@ -156,17 +168,13 @@ function get_every_solusion(n) {
 
     var solutions = []
 
-
     while (true) {
-
         if (if_solution(state)) {
             solutions.push([...state])
         }
-
         let i = n - 1;
 
         while (i >= 0) {
-
             if (state[i] < n - 1) {
                 state[i] += 1;
                 break;
@@ -174,55 +182,37 @@ function get_every_solusion(n) {
                 state[i] = 0;
                 i -= 1;
             }
-
-
         }
-
         if (i < 0) {
             break;
         }
     }
-
     return solutions;
-
-
 }
 
 function if_solution(state) {
-
-
     for (let i = 0; i < n; i++) {
         for (let j = i + 1; j < n; j++) {
             if (state[i] == state[j]) {
 
                 return false;
             }
-
-
             if (Math.abs(state[i] - state[j]) == Math.abs(j - i)) {
                 return false;
             }
-
         }
-
     }
-
     return true;
-
 }
 
 
 function get_solutions_with_required_state(solutions, state) {
-
     let n = state.length;
     var final_solutions = [];
     let is_solution = false;
 
-
     for (let i = 0; i < solutions.length; i++) {
-
         let is_solution = true;
-
 
         for (let j = 0; j < n; j++) {
 
@@ -231,21 +221,13 @@ function get_solutions_with_required_state(solutions, state) {
             }
             if (solutions[i][j] != state[j]) {
                 is_solution = false;
-
             }
-
         }
-
         if (is_solution) {
             final_solutions.push(solutions[i]);
-
         }
-
-
     }
     return final_solutions;
-
-
 }
 
 
@@ -302,6 +284,8 @@ function createQueenSVG() {
         path.setAttribute("style", pathData.style);
         svg.appendChild(path);
     });
+
+    svg.style.pointerEvents = "none";
 
     return svg;
 }
