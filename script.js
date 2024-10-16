@@ -76,18 +76,19 @@ function transformArray(array){
 function controlButton(e){
     let initial_state = transformArray(board);
 
-    const check = initial_state.every((val) => val === -1);
+    let solutions = solve_n_queen(initial_state);
 
-    if (check) {
-        alert('Please select at least one queen');
+    if (solutions.length === 0) {
+        alert("There is no solution for this problem");
         return;
     }
-
-    let solutions = solve_n_queen(initial_state);
+    alert(`There are ${solutions.length} solutions for this problem`);
     applySolution(solutions[0]);
 }
 
 function applySolution(solution) {
+    console.log(solution);
+
     let cells = document.getElementsByClassName('cell');
     for (let i = 0; i < cells.length; i++) {
         cells[i].firstChild.style.display = "none";
